@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pulse-analytics.vercel.app/sitemap.xml
