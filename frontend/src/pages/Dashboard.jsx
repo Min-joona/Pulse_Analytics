@@ -77,11 +77,7 @@ export default function Dashboard() {
       <header className="sticky top-0 z-30 border-b border-line bg-base/80 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-sky text-base"><Activity size={18} /></div>
-            <div>
-              <h1 className="font-bold text-white leading-tight">Pulse</h1>
-              <p className="text-[11px] text-slate-500">Store performance overview</p>
-            </div>
+            <img src="/logo.png" alt="Pulse Analytics" className="h-8 w-auto rounded-md bg-white/95 px-2 py-1" />
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden rounded-lg border border-line p-1 sm:flex">

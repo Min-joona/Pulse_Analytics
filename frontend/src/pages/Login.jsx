@@ -25,9 +25,7 @@ export default function Login() {
     <div className="grid min-h-screen place-items-center px-6">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-sky text-base">
-            <Activity size={22} />
-          </div>
+          <img src="/favicon.png" alt="" className="h-11 w-11 rounded-xl bg-white p-1" />
           <div>
             <h1 className="text-2xl font-bold text-white">Pulse</h1>
             <p className="text-xs text-slate-400">Analytics Dashboard</p>
