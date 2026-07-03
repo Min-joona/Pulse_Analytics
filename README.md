@@ -1,62 +1,80 @@
-# Pulse — MERN Analytics Dashboard
+# Pulse Analytics
 
-[![MERN](https://img.shields.io/badge/Stack-MERN-brightgreen)](#)
-[![Recharts](https://img.shields.io/badge/Charts-Recharts-8884d8)](#)
+A real-time business analytics dashboard built on the MERN stack. Pulse aggregates raw sales events into KPIs, trends, and breakdowns using MongoDB aggregation pipelines, and streams recent activity into a live feed.
 
-A real-time-style analytics dashboard: KPI cards with period-over-period deltas,
-revenue trend, breakdowns by channel / region / device / category, a top-products
-table, and a live activity feed. Data is aggregated server-side with MongoDB
-aggregation pipelines.
+**Live demo:** [pulse-analytics-dash.vercel.app](https://pulse-analytics-dash.vercel.app)
 
-> Built by **Amar Hassen Mohammednur** as part of a full-stack portfolio.
+## Overview
 
-## ✨ Features
+- **KPI cards** — revenue, orders, average order value, and new customers with period-over-period deltas
+- **Revenue trend** — daily time series across selectable 7/30/90-day windows
+- **Breakdowns** — revenue by channel, region, device, or category
+- **Top products** — best sellers ranked by revenue and units
+- **Live activity feed** — most recent transactions, polled continuously
+- **Authenticated access** — the dashboard sits behind JWT login
 
-- **KPI cards** — revenue, orders, average order value, new customers (with % change vs previous period)
-- **Revenue trend** — daily area chart, switchable 7 / 30 / 90-day ranges
-- **Breakdowns** — bar chart by channel, region, device, or category
-- **Category donut** and **top-products** table
-- **Live activity feed** — polls the latest transactions every 5s
-- **JWT-gated** dashboard, dark UI, fully responsive
+All aggregation happens server-side; the client renders pre-computed series with Recharts.
 
-## 🧱 Tech Stack
+## Architecture
 
-React 18 · Vite · Tailwind CSS · Recharts · Node.js · Express · Mongoose · MongoDB · JWT
+```
+amar-analytics/
+├── backend/          Express REST API
+│   ├── config/       Database connection (serverless-aware)
+│   ├── data/         Deterministic sales-event generator
+│   ├── models/       Sale, User schemas
+│   └── routes/       /api/stats · /api/auth
+└── frontend/         React dashboard (Vite)
+    └── src/
+        ├── pages/       Login, Dashboard
+        └── components/  KPI cards, chart panels
+```
 
-## 🚀 Getting Started
+## Tech Stack
 
-### Backend
+| Layer      | Technology                                     |
+| ---------- | ---------------------------------------------- |
+| Frontend   | React 18, Vite, Tailwind CSS, Recharts         |
+| Backend    | Node.js, Express, Mongoose aggregation         |
+| Database   | MongoDB Atlas                                  |
+| Security   | Helmet, rate limiting, input sanitization, JWT |
+
+## Getting Started
+
+**Prerequisites:** Node.js 18+ and a MongoDB connection string.
+
 ```bash
+# API
 cd backend
 npm install
-cp .env.example .env      # set MONGODB_URI + JWT_SECRET
-npm run seed              # generates ~180 days of sales (thousands of records)
-npm run dev               # http://localhost:5001
-```
+cp .env.example .env   # configure environment
+npm run seed           # optional: generate ~180 days of sample data
+npm run dev
 
-### Frontend
-```bash
+# Dashboard
 cd frontend
 npm install
-npm run dev               # http://localhost:5173
+npm run dev
 ```
 
-**Login:** `admin@pulse.io` / `admin123`
+Environment variables are documented in [`backend/.env.example`](backend/.env.example) and [`frontend/.env.example`](frontend/.env.example).
 
-## 📊 API
+## API Reference
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /api/stats/overview?days=` | KPI totals + deltas |
-| `GET /api/stats/revenue?days=` | Daily revenue/orders series |
-| `GET /api/stats/breakdown?days=&by=` | Group by channel/region/category/device |
-| `GET /api/stats/top-products?days=` | Best sellers |
-| `GET /api/stats/live?limit=` | Most recent transactions |
+| Endpoint                        | Description                             |
+| ------------------------------- | --------------------------------------- |
+| `GET /api/stats/overview`       | KPI totals with previous-period deltas  |
+| `GET /api/stats/revenue`        | Daily revenue and order series          |
+| `GET /api/stats/breakdown`      | Grouped revenue by dimension            |
+| `GET /api/stats/top-products`   | Best-selling products                   |
+| `GET /api/stats/live`           | Most recent transactions                |
 
-## ☁️ Deployment
+All stats endpoints require a valid bearer token.
 
-Two Vercel projects — `backend/` (serverless API, env: `MONGODB_URI`, `JWT_SECRET`,
-`ALLOWED_ORIGINS`, `VERCEL=1`) and `frontend/` (env: `VITE_API_URL`). Seed once against Atlas.
+## Author
 
-## 📄 License
+**Amar Hassen Mohammednur** — [github.com/Min-joona](https://github.com/Min-joona)
+
+## License
+
 MIT
